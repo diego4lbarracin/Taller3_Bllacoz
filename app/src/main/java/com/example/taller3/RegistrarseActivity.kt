@@ -28,7 +28,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.storage
 import java.io.File
@@ -48,12 +50,14 @@ class RegistrarseActivity : AppCompatActivity(){
     private var latitudObtenida: Double = 0.0
     private var longitudObtenida: Double = 0.0
     private val REQUEST_CODE_LOCATION_PERMISSION = 103
+    var REQUEST_CODE_SUBIR_FOTO = 0
     private lateinit var imageUri : Uri
 
+    /*Autenticacion*/
     private lateinit var auth: FirebaseAuth
-    var REQUEST_CODE_SUBIR_FOTO = 0
+
     /*Base de Datos*/
-    val database = Firebase.database
+    val database = FirebaseDatabase.getInstance()
     private lateinit var myRef: DatabaseReference
     val PATH_USERS="users/"
 
@@ -73,7 +77,7 @@ class RegistrarseActivity : AppCompatActivity(){
         inputNumeroIdentificacion = findViewById(R.id.numeroIdentificacion)
         auth = Firebase.auth
         /*Logica de los botones al presionarlos*/
-
+        myRef = database.getReference(PATH_USERS)
         btnTomarFoto.setOnClickListener {
             val intent = Intent(this, SubirFotoActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_SUBIR_FOTO) // Use a unique request code
@@ -96,23 +100,12 @@ class RegistrarseActivity : AppCompatActivity(){
 
         btnRegistrarUsuario.setOnClickListener {
             // Check if variables are valid
-
             val email = inputEmail.text.toString().trim()
             val password = inputPassword.text.toString().trim()
 
             if (::imageUri.isInitialized && imageUri != null && latitudObtenida != 0.0 && longitudObtenida !=0.0) {
                 // Variables are valid, proceed with registration
-                val myUser = MyUser()
-                myUser.name = inputNombre.text.toString().trim()
-                myUser.apellido = inputApellido.text.toString().trim()
-                myUser.numeroIdentificacion = inputNumeroIdentificacion.text.toString().trim()
-                myUser.latitud = latitudObtenida
-                myUser.longitud = longitudObtenida
-                myUser.estado = false
                 crearUsuarioFirebaseAuth(email, password)
-                myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
-                myRef.setValue(myUser)
-                uploadFile(imageUri)
                 val intent = Intent(this, IniciarSesionActivity::class.java)
                 startActivity(intent)
                 Toast.makeText(this, "Usuario Registrado Correctamente.", Toast.LENGTH_SHORT).show()
@@ -163,6 +156,24 @@ class RegistrarseActivity : AppCompatActivity(){
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful)
+                    val user = auth.currentUser
+                    if (user != null) {
+                        val myUser = MyUser()
+                        myUser.name = inputNombre.text.toString().trim()
+                        myUser.apellido = inputApellido.text.toString().trim()
+                        myUser.numeroIdentificacion = inputNumeroIdentificacion.text.toString().trim()
+                        myUser.latitud = latitudObtenida
+                        myUser.longitud = longitudObtenida
+                        myUser.estado = false
+                        if (::myRef.isInitialized) {
+                            // myRef is initialized, you can use it
+                            val key = myRef.push().key
+                            myRef = database.getReference(PATH_USERS + key)
+                            myRef.setValue(myUser)
+                        } else {
+                            // myRef is not initialized, handle accordingly
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "createUserWithEmail:Failure: " + task.exception.toString(),
                         Toast.LENGTH_SHORT).show()
@@ -184,7 +195,7 @@ class RegistrarseActivity : AppCompatActivity(){
         }
     }
     private fun uploadFile(imageUri: Uri) { // Pass imageUri as a parameter
-        val storageRef = Firebase.storage.reference // Get a reference to Firebase Storage
+        val storageRef = FirebaseStorage.getInstance().getReference()// Get a reference to Firebase Storage
         // Create a unique filename for the image
         val imageFileName = "profile_images/${UUID.randomUUID()}.jpg"// Or any desired format
         val imageRef = storageRef.child(imageFileName)
