@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/perfil"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/usuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:background="@drawable/rounded_button_with_border"
+        android:layout_below="@+id/titulo">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="0.5"
+            android:src="@drawable/logo_capybara" />
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/nombre_de_usuario"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18sp">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/informacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_below="@id/usuario"
+        android:background="@drawable/rounded_gray_background">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/nombre"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:id="@+id/nombreUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/nombre"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/apellido"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:id="@+id/apellidoUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/apellido"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/emailUsuario"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:id="@+id/emailUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Email"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/nIdentificacion"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:id="@+id/numeroIdentificacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Número"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/botones"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/home_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/home_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/home" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/search" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profile_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/profile_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/profile" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

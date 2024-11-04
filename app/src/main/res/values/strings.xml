@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Taller3_Bllacoz</string>
+    <string name="app_name">Taller 3 Bllacoz</string>
     <string name="emailUsuario">Email</string>
     <string name="ingreseEmailUsuario">Ingrese su email</string>
     <string name="contrasena">Contraseña</string>
@@ -19,4 +19,9 @@
     <string name="ingresarIdentificacion">Ingrese su número de identificación</string>
     <string name="foto">Foto Usuario</string>
     <string name="ubicacion">Ubicación</string>
+    <string name="foto_de_perfil">Foto de Perfil</string>
+    <string name="subirFoto">Subir Foto del Dispositivo</string>
+    <string name="tomarFotoCamara">Tomar con la Cámara</string>
+    <string name="perfil">Perfil de Usuario</string>
+    <string name="nombre_de_usuario">Nombre de Usuario</string>
 </resources>

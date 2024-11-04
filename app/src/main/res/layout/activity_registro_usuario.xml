@@ -6,14 +6,20 @@
     android:padding="35dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/Logo"
+<!--    <ImageView-->
+<!--        android:id="@+id/Logo"-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:src="@drawable/logo_capybara">-->
+<!--    </ImageView>-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pfp"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/logo_capybara">
-    </ImageView>
-
+        android:src="@drawable/logo_capybara" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,7 +107,7 @@
     </EditText>
 
     <LinearLayout
-        android:id="@+id/tomarFoto"
+
         android:layout_width="339dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -121,6 +127,9 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/tomarFoto"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -143,6 +152,9 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/obtenerUbi"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_gravity="center"

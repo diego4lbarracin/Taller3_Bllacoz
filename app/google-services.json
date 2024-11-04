@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "693462448075",
+    "project_id": "platziblog-d6d15",
+    "storage_bucket": "platziblog-d6d15.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693462448075:android:304669517f1098fa39a84e",
+        "android_client_info": {
+          "package_name": "com.example.taller3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693462448075-3ggbng0nfu2pa4gmrg6vmv573gfhp615.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK-9T00ICoWzzKK3mbQQq-vijf26B7M7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693462448075-3ggbng0nfu2pa4gmrg6vmv573gfhp615.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
