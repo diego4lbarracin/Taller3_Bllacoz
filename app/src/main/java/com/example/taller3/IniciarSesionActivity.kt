@@ -28,24 +28,19 @@ class IniciarSesionActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_iniciar_sesion)
-        /*Autenticacion*/
         auth = Firebase.auth
-        /*Botones registrarse e iniciar sesion*/
         btnRegistrarUsuario = findViewById(R.id.registrarse)
         btnIniciarSesion = findViewById(R.id.login_button)
-        /*Campos para iniciar sesion.*/
         emailField = findViewById(R.id.username)
         passwordField = findViewById(R.id.password)
 
         btnIniciarSesion.setOnClickListener {
             val email = emailField.text.toString().trim()
             val password = passwordField.text.toString().trim()
-            /*LLamada al servicio de autenticacion por email y password*/
             signInUser(email, password)
         }
 
 
-        /*Cambiar a pantalla para registrar un usuario*/
         btnRegistrarUsuario.setOnClickListener{
             val intent = Intent(this, RegistrarseActivity::class.java)
             startActivity(intent)
@@ -61,13 +56,14 @@ class IniciarSesionActivity : ComponentActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
             val intent = Intent(this, HomePageActivity::class.java)
-            intent.putExtra("user", currentUser.email)
+            intent.putExtra("user_uid", currentUser.uid)  // Pasar UID al siguiente Activity
             startActivity(intent)
         } else {
             emailField.setText("")
             passwordField.setText("")
         }
     }
+
 
     private fun validateForm(): Boolean {
         var valid = true

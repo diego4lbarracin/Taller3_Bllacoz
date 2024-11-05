@@ -1,6 +1,7 @@
 package com.example.taller3
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import org.json.JSONObject
 import java.io.InputStream
 
@@ -28,6 +30,7 @@ class HomePageActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var auth: FirebaseAuth
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var userUid: String? = null  // UID del usuario autenticado
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +39,11 @@ class HomePageActivity : AppCompatActivity(), OnMapReadyCallback {
         auth = FirebaseAuth.getInstance()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Configurar el mapa
+        userUid = intent.getStringExtra("user_uid")
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        // Configurar el menú de opciones
         val dotsIcon: ImageView = findViewById(R.id.dots_icon)
         dotsIcon.setOnClickListener { view ->
             val popup = PopupMenu(this, view)
@@ -48,11 +51,19 @@ class HomePageActivity : AppCompatActivity(), OnMapReadyCallback {
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_conectarse -> {
+                        userUid?.let { updateUserStatus(it, true) }
                         Toast.makeText(this, "Conectado!", Toast.LENGTH_SHORT).show()
                         true
                     }
                     R.id.action_desconectarse -> {
+                        userUid?.let { updateUserStatus(it, false) }
                         Toast.makeText(this, "Desconectado!", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.action_listaUsuarios -> {
+                        val intent = Intent(this, ListadoUsuarios::class.java)
+                        intent.putExtra("user_uid", userUid)  // Pasar UID al siguiente Activity
+                        startActivity(intent)
                         true
                     }
                     R.id.action_logout -> {
@@ -65,6 +76,10 @@ class HomePageActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             popup.show()
         }
+    }
+
+    private fun updateUserStatus(userId: String, isConnected: Boolean) {
+        FirebaseDatabase.getInstance().getReference("users").child(userId).child("estado").setValue(isConnected)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -103,7 +118,6 @@ class HomePageActivity : AppCompatActivity(), OnMapReadyCallback {
                 val name = locationObj.getString("name")
                 val position = LatLng(latitude, longitude)
 
-                // Agregar marcador en el mapa para cada punto de interés
                 map.addMarker(
                     MarkerOptions()
                         .position(position)

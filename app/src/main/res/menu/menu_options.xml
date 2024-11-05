@@ -7,6 +7,9 @@
         android:id="@+id/action_desconectarse"
         android:title="Desconectarse" />
     <item
+        android:id="@+id/action_listaUsuarios"
+        android:title="Lista de Usuarios" />
+    <item
         android:id="@+id/action_logout"
         android:title="Cerrar Sesión" />
 </menu>

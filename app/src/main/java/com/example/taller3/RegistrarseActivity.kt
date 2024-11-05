@@ -2,7 +2,6 @@ package com.example.taller3
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -18,6 +17,7 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import android.Manifest
+import android.content.ContentValues.TAG
 import android.location.Location
 import android.net.Uri
 import com.google.android.gms.location.LocationServices
@@ -27,7 +27,6 @@ import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
 
 class RegistrarseActivity : AppCompatActivity() {
-    // Declarando variables de UI y Firebase
     private lateinit var btnRegistrarUsuario: Button
     private lateinit var btnRegresar: LinearLayout
     private lateinit var inputNombre: EditText
@@ -51,8 +50,6 @@ class RegistrarseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro_usuario)
-
-        // Inicialización de elementos UI
         btnRegistrarUsuario = findViewById(R.id.registrarse)
         btnRegresar = findViewById(R.id.regresar)
         btnTomarFoto = findViewById(R.id.tomarFoto)
@@ -64,15 +61,13 @@ class RegistrarseActivity : AppCompatActivity() {
         inputNumeroIdentificacion = findViewById(R.id.numeroIdentificacion)
 
         auth = FirebaseAuth.getInstance()
-        myRef = database.getReference(PATH_USERS)
 
         btnRegistrarUsuario.setOnClickListener {
             val email = inputEmail.text.toString().trim()
             val password = inputPassword.text.toString().trim()
 
             if (::imageUri.isInitialized && latitudObtenida != 0.0 && longitudObtenida != 0.0) {
-                // Autentica de forma anónima y luego sube la imagen
-                authenticateAnonymouslyAndUploadImage(email, password)
+                registerUserWithEmailAndPassword(email, password)
             } else {
                 Toast.makeText(this, "Por favor, seleccione una imagen y haga click sobre la ubicación primero.", Toast.LENGTH_SHORT).show()
             }
@@ -124,21 +119,22 @@ class RegistrarseActivity : AppCompatActivity() {
         }
     }
 
-    private fun authenticateAnonymouslyAndUploadImage(email: String, password: String) {
-        // Autentica al usuario de forma anónima
-        auth.signInAnonymously()
+    private fun registerUserWithEmailAndPassword(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Usuario autenticado anónimamente, ahora sube la imagen
-                    uploadProfileImageAndRegisterUser(email, password)
+                    Log.d(TAG, "Usuario registrado con éxito.")
+                    auth.currentUser?.let { user ->
+                        uploadProfileImageAndSaveUserData(user.uid)
+                    }
                 } else {
-                    Toast.makeText(this, "Error en la autenticación anónima.", Toast.LENGTH_SHORT).show()
-                    Log.e(TAG, "Error en autenticación anónima: ${task.exception}")
+                    Toast.makeText(this, "Error al registrar usuario.", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "Error al registrar usuario: ${task.exception}")
                 }
             }
     }
 
-    private fun uploadProfileImageAndRegisterUser(email: String, password: String) {
+    private fun uploadProfileImageAndSaveUserData(userId: String) {
         val storageRef = FirebaseStorage.getInstance().reference
         val imageFileName = "profile_images/${UUID.randomUUID()}.jpg"
         val imageRef = storageRef.child(imageFileName)
@@ -148,8 +144,7 @@ class RegistrarseActivity : AppCompatActivity() {
                 Log.d(TAG, "Imagen subida exitosamente.")
                 imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
                     Log.d(TAG, "URL de la imagen: $downloadUrl")
-                    // Ahora registra al usuario con email y password, y vincula la cuenta
-                    registerAndLinkUserWithImageUrl(email, password, downloadUrl.toString())
+                    saveUserDataToDatabase(userId, downloadUrl.toString())
                 }
             }
             .addOnFailureListener {
@@ -158,21 +153,7 @@ class RegistrarseActivity : AppCompatActivity() {
             }
     }
 
-    private fun registerAndLinkUserWithImageUrl(email: String, password: String, profileImageUrl: String) {
-        val authCredential = EmailAuthProvider.getCredential(email, password)
-        auth.currentUser?.linkWithCredential(authCredential)
-            ?.addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Cuenta vinculada exitosamente.")
-                    saveUserDataToDatabase(email, profileImageUrl)
-                } else {
-                    Log.e(TAG, "Error al vincular la cuenta.", task.exception)
-                    Toast.makeText(this, "Error al vincular la cuenta.", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    private fun saveUserDataToDatabase(email: String, profileImageUrl: String) {
+    private fun saveUserDataToDatabase(userId: String, profileImageUrl: String) {
         val myUser = MyUser(
             name = inputNombre.text.toString().trim(),
             apellido = inputApellido.text.toString().trim(),
@@ -182,9 +163,10 @@ class RegistrarseActivity : AppCompatActivity() {
             estado = false,
             profileImageUrl = profileImageUrl
         )
-        val key = myRef.push().key
-        if (key != null) {
-            myRef.child(key).setValue(myUser).addOnCompleteListener { saveTask ->
+
+        FirebaseDatabase.getInstance().getReference("users").child(userId)
+            .setValue(myUser)
+            .addOnCompleteListener { saveTask ->
                 if (saveTask.isSuccessful) {
                     Log.d(TAG, "Datos del usuario guardados en Firebase Database.")
                     Toast.makeText(this, "Usuario registrado correctamente.", Toast.LENGTH_SHORT).show()
@@ -196,7 +178,6 @@ class RegistrarseActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error al guardar datos en Firebase Database.", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

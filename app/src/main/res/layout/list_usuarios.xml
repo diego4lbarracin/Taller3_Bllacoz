@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pfp"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_weight="0.5"
+        android:padding="5dp"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/usuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nombre_de_usuario"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black">
+        </TextView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/eliminar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.4"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_button_with_border"
+        android:text="Ubicación"/>
+
+
+
+</LinearLayout>
