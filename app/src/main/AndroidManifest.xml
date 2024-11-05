@@ -23,6 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taller3_Bllacoz"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCVOSYqFtWXzom6Xt5-eQv88km1XRL-TBw" />
+
+
         <activity
             android:name=".IniciarSesionActivity"
             android:exported="true"

@@ -49,73 +49,27 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lista"
+    <LinearLayout
+        android:id="@+id/mapa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="16dp"
-        android:layout_below="@id/Logo"
-        android:layout_above="@id/botones">
-
-    </ListView>
-
-    <LinearLayout
-        android:id="@+id/botones"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/rounded_gray_background"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
-            android:id="@+id/home_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+        <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_below="@id/titulo"
+            android:layout_marginTop="20dp">
 
-            <ImageView
-                android:id="@+id/home_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/home" />
+        </fragment>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/search_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/search_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/search" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/profile_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/profile_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/profile" />
-        </LinearLayout>
     </LinearLayout>
+
+
 </RelativeLayout>

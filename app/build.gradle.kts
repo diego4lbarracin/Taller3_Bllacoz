@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.auth)
+    implementation(libs.play.services.maps)
+    implementation (libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,4 +78,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.location)
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
 }
