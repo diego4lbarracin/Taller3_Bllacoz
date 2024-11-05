@@ -48,20 +48,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/ingrese_su_apellido">
     </EditText>
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/nombre_de_usuario"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textColor="@color/black">-->
-<!--    </TextView>-->
-<!--    <EditText-->
-<!--        android:id="@+id/username"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="@string/ingrese_su_nombre_de_usuario">-->
-<!--    </EditText>-->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -209,7 +196,9 @@
                 android:padding="5dp"
                 android:text="@string/regresar"
                 android:textColor="@color/black"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold">
+
+            </TextView>
         </LinearLayout>
 
     </LinearLayout>
